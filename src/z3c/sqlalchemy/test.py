@@ -47,6 +47,6 @@ session = wrapper.session
 
 H = wrapper.getMapper('hierarchy')
 
-print H
+print(H)
 rows = session.query(H).select_by(H.c.id==8)
-print rows[0].children
+print(rows[0].children)

@@ -16,10 +16,10 @@ class ISQLAlchemyWrapper(Interface):
     """
 
     dsn = TextLine(title=u'A RFC-1738 style connection string',
-                  required=True)
+                   required=True)
 
     dbname = TextLine(title=u'Database name',
-                  required=True)
+                      required=True)
 
     host = TextLine(title=u'Hostname of database',
                 required=True)
@@ -95,6 +95,6 @@ class IModel(Interface):
         """
 
 
-    def items():
+    def items(self):
         """ return items in insertion order """
 

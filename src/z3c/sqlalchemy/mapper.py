@@ -11,7 +11,6 @@
 Utility methods for SqlAlchemy
 """
 
-import new
 import threading
 
 from sqlalchemy import Table 
@@ -112,7 +111,7 @@ class MapperFactory(object):
         """ 
 
         if cls is None:
-            newCls = new.classobj('_mapped_%s' % str(table.name), (MappedClassBase,), {})
+            newCls = type('_mapped_%s' % str(table.name), (MappedClassBase,), {})
         else:
             newCls = cls
 
@@ -139,7 +138,7 @@ class LazyMapperCollection(dict):
     def getMapper(self, name, schema='public'):
         """ return a (cached) mapper class for a given table 'name' """
 
-        if not self.has_key(name):
+        if name not in self:
 
             # no-cached data, let's lookup the table ourselfs
             table = None
@@ -183,9 +182,9 @@ class LazyMapperCollection(dict):
             dependent_table_names = []
             if self._model.has_key(name):
 
-                if self._model[name].get('relations') != None:
+                if self._model[name].get('relations') is not None:
                     dependent_table_names = self._model[name].get('relations', []) or []
-                elif self._model[name].get('autodetect_relations', False) == True:
+                elif self._model[name].get('autodetect_relations', False) is True:
 
                     if self._dependent_tables is None:
                         # Introspect table dependencies once. The introspection

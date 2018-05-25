@@ -20,13 +20,19 @@ use the -c option to specify an alternate configuration file.
 $Id: bootstrap.py 72703 2007-02-20 11:49:26Z jim $
 """
 
-import os, shutil, sys, tempfile, urllib2
+import os, shutil, sys, tempfile
+
+try:
+    # For Python 3.0 and later
+    from urllib.request import urlopen
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urllib2 import urlopen
 
 tmpeggs = tempfile.mkdtemp()
 
 ez = {}
-exec urllib2.urlopen('http://peak.telecommunity.com/dist/ez_setup.py'
-                     ).read() in ez
+exec(urlopen('http://peak.telecommunity.com/dist/ez_setup.py').read(), ez)
 ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
 
 import pkg_resources
